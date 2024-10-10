@@ -1,0 +1,40 @@
+﻿version: '3.8'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false  # Disable security for dev purposes
+      - xpack.security.http.ssl.enabled=false
+      - network.host=0.0.0.0
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - es-net
+
+  webapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: full_text_search
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ELASTICSEARCH_URL=http://elasticsearch:9200  
+    ports:
+      - "5000:80"   
+    depends_on:
+      - elasticsearch
+    networks:
+      - es-net
+
+networks:
+  es-net:
+    driver: bridge
+
+volumes:
+  esdata:
+    driver: local
