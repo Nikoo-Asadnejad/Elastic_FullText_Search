@@ -14,7 +14,7 @@ Before running this project, ensure you have the following installed on your mac
 
 - **Dockerfile**: Defines the steps to build the Docker image for the .NET 8 application.
 - **docker-compose.yml**: Defines the services to run, including the .NET app and Elasticsearch.
-- **YourApp.csproj**: Project file for the .NET application.
+- **FullTextSearch.csproj**: Project file for the .NET application.
 
 ## Full-Text Search with Elasticsearch
 
